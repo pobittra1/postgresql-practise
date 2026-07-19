@@ -33,7 +33,7 @@ SELECT * FROM students WHERE first_name LIKE 'E__a';
 -- get the first_name value of students their first_name start with E/e -case insesitive.
 SELECT * FROM students WHERE first_name ILIKE 'e%';
 
--- ---------------------from gpt-----------------------
+-- ---------------------from gpt sollutions for note-----------------------
 -- ===============================
 -- IN, BETWEEN, LIKE, ILIKE NOTES
 -- ===============================
