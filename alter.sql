@@ -27,6 +27,55 @@ ALTER TABLE person2 ALTER COLUMN person_age SET NOT NULL;
 -- again DROP not null to null
 ALTER TABLE person2 ALTER COLUMN person_age DROP NOT NULL;
 
+-- diffrent method of alter for unique, primary key
+ALTER TABLE person2
+ADD constraint unique_person2_person_age UNIQUE (person_age);
+
+-- TRUNCATE for drop the table but structure is stable.
+TRUNCATE TABLE person2;
+-- ------------------diffrent method of alter for unique, primary key etc-----------------
+/*
+-- 🔹 Method 1: ADD CONSTRAINT (recommended)
+
+-- UNIQUE
+ALTER TABLE users
+ADD CONSTRAINT unique_email UNIQUE (email);
+
+-- PRIMARY KEY
+ALTER TABLE users
+ADD CONSTRAINT pk_users PRIMARY KEY (id);
+
+-- 🔹 Method 2: Direct ADD (short)
+
+-- UNIQUE
+ALTER TABLE users
+ADD UNIQUE (email);
+
+-- PRIMARY KEY
+ALTER TABLE users
+ADD PRIMARY KEY (id);
+
+-- 🔹 Method 3: Composite (multiple column)
+
+-- UNIQUE
+ALTER TABLE users
+ADD CONSTRAINT unique_name_age UNIQUE (name, age);
+
+-- PRIMARY KEY
+ALTER TABLE users
+ADD PRIMARY KEY (id, email);
+
+-- 🔹 Method 4: DROP constraint
+
+-- UNIQUE drop
+ALTER TABLE users
+DROP CONSTRAINT unique_email;
+
+-- PRIMARY KEY drop (default নাম: table_pkey)
+ALTER TABLE users
+DROP CONSTRAINT users_pkey;
+*/
+
 /*
 -- ---------------From gpt------------------
 -- Add column
