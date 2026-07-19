@@ -200,4 +200,68 @@ VALUES (
         'Canada'
     );
 
+-- get all students data
 SELECT * FROM students;
+
+-- get only email-- single field data
+SELECT email from students;
+
+-- get multiple fields data
+select first_name, email, age from students;
+
+-- see the students email as student_email---- not chane email field name. just show as student_email
+select email AS student_email FROM students;
+
+select email AS "Student Email" FROM students;
+-- without undrscore. like clean formating.
+
+-- see the data using ORDER BY ASC/DESC----- A to Z and Z to A
+select * FROM students ORDER BY first_name ASC;
+-- or last_name z to a
+SELECT * FROM students ORDER BY last_name DESC;
+-- see the youngest student first
+SELECT * FROM students ORDER BY age ASC;
+
+-- get the country - not repeat . one country one time -
+SELECT DISTINCT country FROM students;
+-- same for blood group
+SELECT DISTINCT blood_group FROM students;
+
+-- data filtering - WHERE
+-- get the all students of Usa country
+SELECT * FROM students WHERE country = 'Canada';
+
+-- get the all students of Canada country and they have A grade - 2 condition check- need true for 2 condition
+SELECT * FROM students WHERE country = 'Canada' AND grade = 'A';
+
+-- get the students of Bangladesh and Canada country
+SELECT *
+FROM students
+WHERE
+    country = 'Bangladesh'
+    OR country = 'Canada';
+
+-- get the all students they have course EEE and English and first name asc way
+SELECT *
+FROM students
+WHERE
+    course = 'EEE'
+    or course = 'English'
+ORDER BY first_name ASC;
+
+-- get the all students they have course EEE and English and first name asc way and also have age 20-- complex filtering
+SELECT *
+FROM students
+WHERE (
+        course = 'EEE'
+        or course = 'English'
+    )
+    AND age = 20
+ORDER BY first_name ASC;
+
+-- comparison operators
+-- select students older than 20 and they have EEE course
+SELECT * FROM students WHERE age > 20 and course = 'EEE';
+
+-- get the all students without Italy country
+SELECT * FROM students WHERE country != 'Italy';
