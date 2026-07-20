@@ -109,3 +109,94 @@ DELETE FROM "user" WHERE id = 1;
 
 -- ===== END =====
 */
+
+-- Deletion integrity------------
+
+-- can't delete cause get error for fkey deletion default integrity
+DELETE FROM "user" WHERE id = 10;
+
+/*
+-- ---------------From gpt for note------------------------
+-- ===== FK DELETE BEHAVIOR (ALL 4 WITH CREATE) =====
+
+-- ==============================
+-- 1. ON DELETE RESTRICT (default)
+-- ==============================
+-- Cannot delete parent if child exists
+
+CREATE TABLE "user" (
+id SERIAL PRIMARY KEY,
+username TEXT
+);
+
+CREATE TABLE post_restrict (
+id SERIAL PRIMARY KEY,
+title TEXT,
+user_id INTEGER REFERENCES "user"(id) ON DELETE RESTRICT
+);
+
+-- Example:
+-- DELETE FROM "user" WHERE id = 1;
+-- ❌ ERROR if any row in post_restrict has user_id = 1
+
+-- ==============================
+-- 2. ON DELETE CASCADE
+-- ==============================
+-- Delete parent → child rows auto deleted
+
+CREATE TABLE post_cascade (
+id SERIAL PRIMARY KEY,
+title TEXT,
+user_id INTEGER REFERENCES "user"(id) ON DELETE CASCADE
+);
+
+-- Example:
+-- DELETE FROM "user" WHERE id = 2;
+-- → all related rows in post_cascade also deleted
+
+-- ==============================
+-- 3. ON DELETE SET NULL
+-- ==============================
+-- Delete parent → child foreign key becomes NULL
+
+CREATE TABLE post_null (
+id SERIAL PRIMARY KEY,
+title TEXT,
+user_id INTEGER REFERENCES "user"(id) ON DELETE SET NULL
+);
+
+-- ⚠️ column must allow NULL
+
+-- Example:
+-- DELETE FROM "user" WHERE id = 3;
+-- → post_null.user_id = NULL
+
+-- ==============================
+-- 4. ON DELETE SET DEFAULT
+-- ==============================
+-- Delete parent → child foreign key becomes default value
+
+CREATE TABLE post_default (
+id SERIAL PRIMARY KEY,
+title TEXT,
+user_id INTEGER DEFAULT 0
+REFERENCES "user"(id) ON DELETE SET DEFAULT
+);
+
+-- ⚠️ default value must exist in parent table
+
+-- setup default user
+INSERT INTO "user"(id, username) VALUES (0, 'default_user');
+
+-- Example:
+-- DELETE FROM "user" WHERE id = 4;
+-- → post_default.user_id = 0
+
+-- ===== SUMMARY =====
+-- RESTRICT     → block delete
+-- CASCADE      → delete child rows
+-- SET NULL     → set NULL
+-- SET DEFAULT  → set default value
+
+-- ===== END =====
+*/
