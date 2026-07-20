@@ -219,3 +219,18 @@ VALUES (
 SELECT * FROM departments;
 --see employes
 SELECT * FROM employees;
+
+-- task 1. Inner join to retrive employee and department information.
+SELECT *
+FROM employees AS e
+    INNER JOIN departments AS d ON e.department_id = d.department_id;
+-- alternative way
+SELECT * FROM employees INNER JOIN departments USING (department_id);
+-- task 2. show department name with average salary
+SELECT
+    department_name,
+    ROUND(AVG(salary)) AS department_avg_salary
+FROM employees
+    INNER JOIN departments USING (department_id)
+GROUP BY
+    department_name;
