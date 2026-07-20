@@ -234,3 +234,57 @@ FROM employees
     INNER JOIN departments USING (department_id)
 GROUP BY
     department_name;
+
+--task 3. count employees in each department
+SELECT
+    department_name,
+    COUNT(employee_id) AS "each_department_employees"
+FROM employees
+    INNER JOIN departments USING (department_id)
+GROUP BY
+    department_name;
+
+-- task 4. find the department name with the highest average salary.
+SELECT MAX(average_salary_of_each_dept)
+FROM (
+        -- make temporary table then in subquery get max value
+        SELECT
+            department_name, AVG(salary) AS "average_salary_of_each_dept"
+        FROM employees
+            INNER JOIN departments USING (department_id)
+        GROUP BY
+            department_name
+    ) AS dept_salary;
+
+-- get max avg salary with department_name
+SELECT
+    department_name,
+    AVG(salary) AS average_salary
+FROM employees
+    INNER JOIN departments USING (department_id)
+GROUP BY
+    department_name
+ORDER BY average_salary DESC
+LIMIT 1;
+
+-- get max avg salary , department_name and department_id
+SELECT
+    department_id,
+    department_name,
+    AVG(salary) AS average_salary
+FROM employees
+    INNER JOIN departments USING (department_id)
+GROUP BY
+    department_id,
+    department_name
+ORDER BY average_salary DESC
+LIMIT 1;
+
+-- task 5. count employees hired each year
+SELECT EXTRACT(
+        YEAR
+        FROM hire_date
+    ) AS hired_year, COUNT(*) AS hired_employees
+FROM employees
+GROUP BY
+    hired_year;
