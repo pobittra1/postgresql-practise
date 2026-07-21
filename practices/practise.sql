@@ -358,3 +358,221 @@ WHERE
     ) = 2022
 GROUP BY
     order_month_of_2022;
+
+--------------------------------------------------------------------------------
+_ --------------------------------------------------------------------------------
+-- ---------Generate 10 problems From gpt and solve here-----------------
+-- ---------------------------------------------------------------------------++
+
+-- Task 1. Find total number of orders per customer
+-- 1. FROM: get data from orders table
+-- 2. GROUP BY: group rows by customer_id
+-- 3. SELECT: count total orders
+SELECT customer_id, COUNT(*) AS total_orders
+FROM orders
+GROUP BY
+    customer_id;
+
+-- Task 2. Find total amount spent by each customer
+-- 1. FROM: get data
+-- 2. GROUP BY: customer_id
+-- 3. SELECT: sum total_amount
+SELECT customer_id, SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY
+    customer_id;
+
+-- Task 3. Find customers who spent more than 400
+-- 1. FROM: get data
+-- 2. GROUP BY: customer_id
+-- 3. HAVING: filter sum > 400
+-- 4. SELECT: show result
+SELECT customer_id, SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY
+    customer_id
+HAVING
+    SUM(total_amount) > 400;
+
+-- Task 4. Find total sales per month in 2022
+-- 1. FROM: get data
+-- 2. WHERE: filter year = 2022
+-- 3. GROUP BY: month
+-- 4. SELECT: sum total_amount
+-- 5. ORDER BY: month
+SELECT EXTRACT(
+        MONTH
+        FROM order_date
+    ) AS month, SUM(total_amount) AS total_sales
+FROM orders
+WHERE
+    EXTRACT(
+        YEAR
+        FROM order_date
+    ) = 2022
+GROUP BY
+    month
+ORDER BY month;
+
+-- Task 5. Find maximum order amount per customer
+-- 1. FROM: get data
+-- 2. GROUP BY: customer_id
+-- 3. SELECT: MAX(total_amount)
+SELECT customer_id, MAX(total_amount) AS max_order
+FROM orders
+GROUP BY
+    customer_id;
+
+-- Task 6. Find average order amount per customer
+-- 1. FROM: get data
+-- 2. GROUP BY: customer_id
+-- 3. SELECT: AVG(total_amount)
+SELECT customer_id, AVG(total_amount) AS avg_order
+FROM orders
+GROUP BY
+    customer_id;
+
+-- Task 7. Find latest order for each customer
+-- 1. FROM: get data
+-- 2. ORDER BY: customer_id + date desc
+-- 3. DISTINCT ON: pick latest row per customer
+-- 4. SELECT: show result
+SELECT DISTINCT
+    ON (customer_id) customer_id,
+    order_date,
+    total_amount
+FROM orders
+ORDER BY customer_id, order_date DESC;
+
+-- Task 8. Rank customers by total spending
+-- 1. FROM: get data
+-- 2. GROUP BY: customer_id
+-- 3. SELECT: SUM(total_amount)
+-- 4. WINDOW FUNCTION: apply RANK()
+SELECT
+    customer_id,
+    SUM(total_amount) AS total_spent,
+    RANK() OVER (
+        ORDER BY SUM(total_amount) DESC
+    ) AS rank
+FROM orders
+GROUP BY
+    customer_id;
+
+-- Task 9. Find customers with more than 2 orders and total spent
+-- 1. FROM: get data
+-- 2. GROUP BY: customer_id
+-- 3. HAVING: count > 2
+-- 4. SELECT: count & sum
+SELECT
+    customer_id,
+    COUNT(*) AS total_orders,
+    SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY
+    customer_id
+HAVING
+    COUNT(*) > 2;
+
+-- Task 10. Find customers whose total spending is above average
+-- 1. INNER QUERY: calculate total_spent per customer
+-- 2. SUBQUERY: calculate average of total_spent
+-- 3. OUTER QUERY: filter customers > avg
+SELECT *
+FROM (
+        SELECT customer_id, SUM(total_amount) AS total_spent
+        FROM orders
+        GROUP BY
+            customer_id
+    ) AS t
+WHERE
+    total_spent > (
+        SELECT AVG(total_spent)
+        FROM (
+                SELECT SUM(total_amount) AS total_spent
+                FROM orders
+                GROUP BY
+                    customer_id
+            ) AS avg_table
+    );
+
+-- -------------------------------------------------------------------------
+-- -----------------------------------Advance task / query--------------------------------
+-- -------------------------------------------------------------------------------------------
+
+-- Task 11. Find top 2 highest spending customers
+-- 1. FROM: get data
+-- 2. GROUP BY: customer_id
+-- 3. SELECT: SUM(total_amount)
+-- 4. ORDER BY: total_spent desc
+-- 5. LIMIT: top 2
+SELECT customer_id, SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY
+    customer_id
+ORDER BY total_spent DESC
+LIMIT 2;
+
+-- Task 12. Find customers who placed orders in January only
+-- 1. FROM: get data
+-- 2. GROUP BY: customer_id
+-- 3. HAVING: only month = 1
+SELECT customer_id
+FROM orders
+GROUP BY
+    customer_id
+HAVING
+    COUNT(
+        DISTINCT EXTRACT(
+            MONTH
+            FROM order_date
+        )
+    ) = 1
+    AND MIN(
+        EXTRACT(
+            MONTH
+            FROM order_date
+        )
+    ) = 1;
+
+-- Task 13. Find total orders and spending per day
+-- 1. FROM: get data
+-- 2. GROUP BY: order_date
+-- 3. SELECT: COUNT + SUM
+-- 4. ORDER BY: date
+SELECT
+    order_date,
+    COUNT(*) AS total_orders,
+    SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY
+    order_date
+ORDER BY order_date;
+
+-- Task 14. Find customers whose total spending is below average
+-- 1. INNER: total per customer
+-- 2. SUBQUERY: average spending
+-- 3. OUTER: filter < avg
+SELECT *
+FROM (
+        SELECT customer_id, SUM(total_amount) AS total_spent
+        FROM orders
+        GROUP BY
+            customer_id
+    ) t
+WHERE
+    total_spent < (
+        SELECT AVG(total_spent)
+        FROM (
+                SELECT SUM(total_amount) AS total_spent
+                FROM orders
+                GROUP BY
+                    customer_id
+            ) avg_table
+    );
+
+-- Task 15. Find most recent order overall
+-- 1. FROM: get data
+-- 2. ORDER BY: date desc
+-- 3. LIMIT: 1
+SELECT * FROM orders ORDER BY order_date DESC LIMIT 1;
