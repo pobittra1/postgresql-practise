@@ -148,4 +148,24 @@ WHERE
     );
 
 -- Task 11. Find borrowers who borrowed more than 1 book
+SELECT borrower_name
+FROM borrowers
+GROUP BY
+    borrower_name
+HAVING
+    COUNT(*) > 1;
+
 -- Task 12. Show books never borrowed
+SELECT books.title
+FROM books
+    LEFT JOIN borrowers ON books.book_id = borrowers.book_id
+WHERE
+    borrowers.book_id IS NULL;
+
+-- If borrowers.book_id is null so it don't bought.
+SELECT books.title, borrowers.book_id
+FROM books
+    LEFT JOIN borrowers ON books.book_id = borrowers.book_id;
+
+-- SQL EXUCUTION ORDER
+-- FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY
