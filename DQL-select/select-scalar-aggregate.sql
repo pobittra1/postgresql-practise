@@ -10,7 +10,7 @@ SELECT LENGTH(first_name) FROM students;
 
 SELECT CONCAT(first_name, ' ', last_name) FROM students;
 
--- aggregate functions
+-- aggregate functions - calculate each row and give output single value.
 SELECT COUNT(*) FROM students;
 
 SELECT SUM(age) FROM students;
