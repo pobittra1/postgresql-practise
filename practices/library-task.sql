@@ -90,3 +90,18 @@ FROM borrowers
     INNER JOIN books ON borrowers.book_id = books.book_id
 WHERE
     title = 'SQL Basics';
+
+-- Task 7.Count how many times each book borrowed
+SELECT
+    books.title AS buying_books,
+    COUNT(*) AS buying_book_number
+FROM borrowers
+    INNER JOIN books ON borrowers.book_id = books.book_id
+GROUP BY
+    books.title;
+
+-- Task 8.Find most expensive book
+SELECT b.title AS most_expensive_book
+FROM books AS b
+ORDER BY b.price DESC
+LIMIT 1;
