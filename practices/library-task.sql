@@ -67,7 +67,7 @@ VALUES ('Arif Hasan', 1, '2024-01-10'),
 -- see books
 SELECT * FROM books;
 -- see borrows
-SELECT * FROM borrows;
+SELECT * FROM borrowers;
 
 -- Task 1.Show all books name + price
 SELECT title AS "books", price FROM books;
@@ -77,3 +77,16 @@ SELECT * FROM books WHERE books.price > 40;
 SELECT COUNT(*) AS "total_books" FROM books;
 -- Task 4.Show all borrowers name
 SELECT borrower_name AS borrowers_name FROM borrowers;
+
+-- ------Medium Task----------
+-- Task 5.Show borrower name with book title (JOIN)
+SELECT borrower_name, books.title AS book_title
+FROM borrowers
+    INNER JOIN books ON borrowers.book_id = books.book_id;
+
+-- Task 6. Find who borrowed "SQL Basics"
+SELECT *
+FROM borrowers
+    INNER JOIN books ON borrowers.book_id = books.book_id
+WHERE
+    title = 'SQL Basics';
