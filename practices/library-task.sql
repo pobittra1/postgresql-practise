@@ -71,3 +71,9 @@ SELECT * FROM borrows;
 
 -- Task 1.Show all books name + price
 SELECT title AS "books", price FROM books;
+-- Task 2.Find books where price > 40
+SELECT * FROM books WHERE books.price > 40;
+-- Task 3.Count total books
+SELECT COUNT(*) AS "total_books" FROM books;
+-- Task 4.Show all borrowers name
+SELECT borrower_name AS borrowers_name FROM borrowers;
