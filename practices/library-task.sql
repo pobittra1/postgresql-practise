@@ -68,3 +68,6 @@ VALUES ('Arif Hasan', 1, '2024-01-10'),
 SELECT * FROM books;
 -- see borrows
 SELECT * FROM borrows;
+
+-- Task 1.Show all books name + price
+SELECT title AS "books", price FROM books;
