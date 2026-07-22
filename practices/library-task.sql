@@ -105,3 +105,47 @@ SELECT b.title AS most_expensive_book
 FROM books AS b
 ORDER BY b.price DESC
 LIMIT 1;
+
+-- ------Hard task----------------
+-- Task 9.Show each borrower with total books borrowed
+SELECT b.borrower_name, COUNT(b.book_id) AS borrowed_books
+FROM borrowers AS b
+GROUP BY
+    b.borrower_name;
+
+-- Task 10.Find book which borrowed most times
+SELECT title AS most_buying_book
+FROM books
+WHERE
+    books.book_id = (
+        SELECT book_id
+        FROM borrowers b
+        GROUP BY
+            b.book_id
+        ORDER BY count(*) DESC
+        LIMIT 1
+    );
+
+-- alternative way-- if 2 book have same time borrowed so 2 is selected
+SELECT title
+FROM books
+WHERE
+    book_id IN (
+        SELECT book_id
+        FROM borrowers
+        GROUP BY
+            book_id
+        HAVING
+            COUNT(*) = (
+                SELECT MAX(cnt)
+                FROM (
+                        SELECT COUNT(*) AS cnt
+                        FROM borrowers
+                        GROUP BY
+                            book_id
+                    ) t
+            )
+    );
+
+-- Task 11. Find borrowers who borrowed more than 1 book
+-- Task 12. Show books never borrowed
