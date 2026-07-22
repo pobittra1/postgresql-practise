@@ -1,7 +1,7 @@
 -- get the all students data
 SELECT * from students;
 
--- scalar functions
+-- scalar functions-
 SELECT UPPER(first_name) FROM students;
 
 SELECT LOWER(first_name) FROM students;

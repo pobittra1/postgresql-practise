@@ -1,3 +1,4 @@
+-- Active: 1784391000223@@localhost@5432@postgres
 SELECT * FROM "user";
 
 SELECT * FROM post;

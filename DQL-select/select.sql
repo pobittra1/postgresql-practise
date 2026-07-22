@@ -232,9 +232,11 @@ SELECT DISTINCT blood_group FROM students;
 SELECT * FROM students WHERE country = 'Canada';
 
 -- get the all students of Canada country and they have A grade - 2 condition check- need true for 2 condition
+-- get by different column multiple value to use AND
 SELECT * FROM students WHERE country = 'Canada' AND grade = 'A';
 
 -- get the students of Bangladesh and Canada country
+-- get by same column multiple value to use OR
 SELECT *
 FROM students
 WHERE
