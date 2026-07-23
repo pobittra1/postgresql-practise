@@ -70,7 +70,7 @@ SELECT * FROM books;
 SELECT * FROM borrowers;
 
 -- Task 1.Show all books name + price
-SELECT title AS "books", price FROM books;
+SELECT title AS "books", price AS book_price FROM books;
 -- Task 2.Find books where price > 40
 SELECT * FROM books WHERE books.price > 40;
 -- Task 3.Count total books
