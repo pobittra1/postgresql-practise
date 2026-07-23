@@ -53,6 +53,8 @@ SELECT * FROM students WHERE age NOT BETWEEN 18 AND 25;
 
 -- 🔹 LIKE → pattern match (case-sensitive)
 SELECT * FROM students WHERE first_name LIKE 'A%';
+-- case insensitive
+SELECT * FROM students WHERE first_name ILIKE 'a%';
 -- starts with A
 
 SELECT * FROM students WHERE first_name LIKE '%a';
