@@ -266,4 +266,4 @@ ORDER BY first_name ASC;
 SELECT * FROM students WHERE age > 20 and course = 'EEE';
 
 -- get the all students without Italy country
-SELECT * FROM students WHERE country != 'Italy';
+SELECT * FROM students WHERE country NOT IN ('Italy');
