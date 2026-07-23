@@ -1,3 +1,4 @@
+-- Active: 1784391000223@@localhost@5432@postgres
 -- get the all students
 SELECT * FROM students;
 
